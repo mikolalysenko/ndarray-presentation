@@ -24,7 +24,8 @@
     "typedarray-pool": "^0.1.2",
     "luminance": "^1.0.2",
     "apply-colormap": "0.0.0",
-    "ndarray-gaussian-filter": "0.0.0"
+    "ndarray-gaussian-filter": "0.0.0",
+    "pitch-shift": "0.0.0"
   },
   "devDependencies": {},
   "scripts": {
