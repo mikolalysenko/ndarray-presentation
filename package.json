@@ -11,15 +11,25 @@
     "gl-axes": "0.0.1",
     "gl-surface-plot": "0.0.1",
     "gl-now": "1.0.0",
-    "ndarray": "1.0.11",
+    "ndarray": "^1.0.11",
     "reveal.js": "2.6.2",
     "ndarray-fill": "0.1.0",
-    "remove-element": "0.0.0"
+    "remove-element": "0.0.0",
+    "uglifyjs": "2.3.6",
+    "indexhtmlify": "1.1.1",
+    "browserify": "3.33.0",
+    "ndarray-scratch": "0.0.1",
+    "lena": "^1.0.0",
+    "ndarray-ops": "^1.2.1",
+    "typedarray-pool": "^0.1.2",
+    "luminance": "^1.0.2",
+    "apply-colormap": "0.0.0",
+    "ndarray-gaussian-filter": "0.0.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "browserify --debug gl/index.js | indexhtmlify > gl/index.html && beefy --open index.js:bundle.js",
-    "build": "browserify gl/index.js | indexhtmlify > gl/index.html && browserify index.js > bundle.js"
+    "test": "browserify --debug gl/index.js | indexhtmlify > gl/webgl.html && beefy --open index.js:bundle.js",
+    "build": "browserify gl/index.js | uglifyjs | indexhtmlify > gl/webgl.html && browserify index.js | uglifyjs > bundle.js"
   },
   "repository": {
     "type": "git",
