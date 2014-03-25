@@ -6,3 +6,51 @@
 #image-processing-sigma {
   width: 400px;
 }
+
+#audio-stretch-factor {
+  width: 400px;
+}
+
+.play, .pause {
+   width: 160px;
+   height: 160px;
+   background: transparent;
+   position: relative;
+   margin-top: 20px;
+   display: block;
+}
+ 
+.play:before {
+    width: 0;        
+    height: 0;
+    border-left: 60px solid white;
+    border-right: 60px solid transparent;
+    border-top: 60px solid transparent;
+    border-bottom: 60px solid transparent; 
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 50px;
+}
+ 
+.pause:before {
+    width: 20px;        
+    height: 120px;
+    background: white;
+    position: absolute;
+    content: "";
+    top: 20px;
+    left: 50px;
+}
+
+.pause:after {
+    width: 20px;        
+    height: 120px;
+    background: white;
+    position: absolute;
+    content: "";
+    top: 20px;
+    right: 50px;
+}
+
+#

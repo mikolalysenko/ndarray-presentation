@@ -15,6 +15,8 @@ document.body.appendChild(glIframe)
 
 //Run scripts from different frames
 require("./lib/image-processing.js")
+require("./lib/dsp.js")
+require("./lib/pde.js")
 
 function getTag(list) {
   for(var i=0; i<list.length; ++i) {
@@ -27,19 +29,28 @@ function getTag(list) {
 
 //Reveal.js interface
 Reveal.addEventListener("slidechanged", function(event) {
-  var prevContainer = event.previousSlide.querySelector(".glcontainer")
-  if(prevContainer) {
-    glIframe.contentWindow.postMessage("none", "*")
-    glIframe.style.display = "none"
-    glIframe.style.visibility = "hidden"
+  if(event.previousSlide) {
+    var prevContainer = event.previousSlide.querySelector(".glcontainer")
+    if(prevContainer) {
+      glIframe.contentWindow.postMessage("none", "*")
+      glIframe.style.display = "none"
+      glIframe.style.visibility = "hidden"
+    }
   }
-  var nextContainer = event.currentSlide.querySelector(".glcontainer")
-  if(nextContainer) {
-    glIframe.style.display = "block"
-    glIframe.style.visibility = "visible"
-    glIframe.width = window.innerWidth
-    glIframe.height = window.innerHeight
-    glIframe.contentWindow.postMessage(getTag(event.currentSlide.classList), "*")
+  if(event.currentSlide) {
+    var nextContainer = event.currentSlide.querySelector(".glcontainer")
+    if(nextContainer) {
+      glIframe.style.display = "block"
+      glIframe.style.visibility = "visible"
+      glIframe.width = window.innerWidth
+      glIframe.height = window.innerHeight
+      glIframe.contentWindow.postMessage(getTag(event.currentSlide.classList), "*")
+    }
   }
 })
-Reveal.initialize({})
+Reveal.initialize({
+  width: 1024,
+  height: 768,
+  slideNumber: true,
+  history: true
+})

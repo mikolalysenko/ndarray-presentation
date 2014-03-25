@@ -46,6 +46,10 @@
           </p>
         </section>
 
+        <section class="slide-what">
+          <h1>Multidimensional Arrays</h1>
+        </section>
+
         <section class="slide-image-processing">
           <h1>Image processing</h1>
           <canvas id="image-processing-canvas" width=512 height=512></canvas>
@@ -59,18 +63,22 @@
           <div class="glcontainer"></div>
         </section>
 
-        <section class="signal-processing">
+        <section class="slide-dsp">
           <h1>DSP</h1>
-          <div class="audiocontainer">
-          </div>
+          <p style="text-align: center;">
+            <div style="margin:auto; width:160px;">
+              <div id="audio-play-button" class="play"></div>
+            </div>
+            <p>
+              <p><label for="audio-stretch-factor">Stretch Factor</label></p>
+              <input id="audio-stretch-factor" type="range" min="-1.0" max="1.0" value="0.0" step="0.1" />
+            </p>
+          </p>
         </section>
 
-        <section class="scientific-computing">
+        <section class="slide-pde">
           <h1>Scientific Computing</h1>
-        </section>
-
-        <section class="volume-graphics">
-          <h1>Volume Graphics</h1>
+          <canvas id="pde-canvas" width=256 height=256 style="width:512px; height:512px;"></canvas>
         </section>
 
       </div>
