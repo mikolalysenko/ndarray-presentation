@@ -20,14 +20,14 @@
     "browserify": "3.33.0",
     "ndarray-scratch": "0.0.1",
     "lena": "^1.0.0",
-    "ndarray-ops": "^1.2.1",
-    "typedarray-pool": "^0.1.2",
-    "luminance": "^1.0.2",
+    "ndarray-ops": "1.2.1",
+    "typedarray-pool": "0.1.2",
+    "luminance": "1.0.2",
     "apply-colormap": "0.0.0",
     "ndarray-gaussian-filter": "0.0.0",
     "pitch-shift": "0.0.0",
-    "cwise": "^0.4.0",
-    "highlight.js": "^8.0.0"
+    "cwise": "0.4.0",
+    "highlight.js": "8.0.0"
   },
   "devDependencies": {},
   "scripts": {
