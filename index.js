@@ -16,6 +16,7 @@ document.body.appendChild(glIframe)
 //Run scripts from different frames
 require("./lib/image-processing.js")
 require("./lib/dsp.js")
+require("./lib/pde.js")
 
 function getTag(list) {
   for(var i=0; i<list.length; ++i) {
