@@ -113,51 +113,101 @@ var array = [ [1, 0, 0],
 
           <section>
             <h1>Strided arrays</h1>
+
+            Affine map from ℤ<sup>n</sup> to ℤ
           </section>
         </section>
 
         <section class="section-ndarrays">
           <section class="slide-getting-to-know">
-            <h1>Getting to know ndarrays</h1>
+            <h1>Getting to know <a href="https://github.com/mikolalysenko/ndarray">ndarrays</a></h1>
           </section>
 
           <section>
             <h1>Philosophy</h1>
             <ul>
-              <li>ndarray = affine map from ℤ<sup>n</sup> to ℤ</li>
+              <li>Minimal core</li>
               <li>Many small modules</li>
-              <li>Browser and node compatible</li>
+              <li><a href="http://browserify.org/">Browserify</a> and <a href="https://www.npmjs.org/">npm</a></li>
+              <li>Explicit memory management</li>
+              <li>WebGL interoperability</li>
             </ul>
           </section>
 
           <section>
             <h1>Constructor</h1>
-            <br>
+            
+            <h3 style="text-align:left;">Require</h3>
             <span class="fragment" style="font-family:monospace;">
               <font color="navy">var</font> ndarray = require(<font color="teal">"ndarray"</font>)</p>
             </span>
 
             <br>
+            <h3 style="text-align:left;">Create</h3>
             <span class="fragment" style="font-family:monospace;">
-              ndarray(<font color="red">data</font>,<font color="lime">shape</font>,<font color="aqua">stride</font>,<font color="yellow">offset</font>)
+              <font color="navy">var</font> array = ndarray(<font color="red">data</font>,<font color="lime">shape</font>,<font color="aqua">stride</font>,<font color="yellow">offset</font>)
             </span>
 
-            <span class="fragment">
-              <ul>
-                <li><font color="red">data</font> is the underlying 1D array</li>
-                <li><font color="lime">shape</font> gives the dimensions of the ndarray</li>
-                <li><font color="aqua">stride</font> is the linear part of the map</li>
-                <li><font color="yellow">offset</font> is the translation part of the map</li>
-              </ul>
-            </span>
+            <ul>
+              <li class="fragment"><font color="red">data</font> is the underlying 1D array</li>
+              <li class="fragment"><font color="lime">shape</font> gives the dimensions of the ndarray</li>
+              <li class="fragment"><font color="aqua">stride</font> is the linear part of the map</li>
+              <li class="fragment"><font color="yellow">offset</font> is the translation part of the map</li>
+            </ul>
           </section>
 
           <section>
             <h1>Accessors</h1>
+
+            <h3 style="text-align:left;">Update an element</h3>
+            <span class="fragment">
+            <font style="font-family:monospace;">array.set(<font color="orange">i0</font>,<font color="orange">i1</font>,<font color="green">v</font>)</font>
+            </span>
+
+            <br> <br>
+
+            <span class="fragment">
+            <h3 style="text-align:left;"> Translates to</h3>
+            <font style="font-family:monospace;"><font color="red">data</font>[<font color="aqua">stride</font>[0]*<font color="orange">i0</font>+<font color="aqua">stride</font>[1]*<font color="orange">i1</font>+<font color="yellow">offset</font>]=<font color="green">v</font></font>
+            </span>
+
+          </section>
+
+          <section class="slide-slicing-overview">
+            <h1>Slicing</h1>
+
+            <h3 style="text-align:left;">Methods</h3>
+
+            <ul>
+              <li class="fragment">
+                <font style="font-family:monospace;">.hi(x0,x1,...)</font>:
+                Changes the shape to [x0,x1,...]
+              </li>
+              <li class="fragment">
+                <font style="font-family:monospace;">.lo(x0,x1,...)</font>:
+                Moves (x0,x1,...) to (0,0,...)
+              </li>
+              <li class="fragment">
+                <font style="font-family:monospace;">.transpose(x0,x1,...)</font>:
+                Permutes indices
+              </li>
+              <li class="fragment">
+                <font style="font-family:monospace;">.step(x0,x1,...)</font>:
+                Changes striding, skips elements
+              </li>
+              <li class="fragment">
+                <font style="font-family:monospace;">.pick(x0,x1,...)</font>:
+                Selects a subarray
+              </li>
+            </ul>
+
+            <br><br>
+
+            <span class="fragment">Can be chained and takes O(dimension) time</span>
           </section>
 
           <section class="slide-slicing">
-            <h1>Slicing</h1>
+            <h1>Slicing Visualized</h1>
             <div>
               <div class="slice-panel-left">
                 <h4>Data:</h4>
@@ -183,6 +233,31 @@ var array = [ [1, 0, 0],
 
           <section>
             <h1>Custom datatypes</h1>
+
+            <p>
+              <font color="red">data</font> can be any array-like object or data structure with .get/.set
+            </p>
+
+            <br>
+            <h3>Example:</h3>
+<pre>
+<code>
+var hash = {}
+var hashStore = {
+  get: function(i) {
+    return +hash[i]
+  },
+  set: function(i,v) {
+    return hash[i]=v
+  },
+  length: Infinity
+}
+var array = ndarray(hashStore, [1000,1000,1000])
+</code>
+</pre>
+        
+          <span class="fragment">Useful for implementing sparse arrays</span>
+
           </section>
         </section>
 
