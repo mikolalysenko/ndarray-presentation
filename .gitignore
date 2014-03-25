@@ -13,5 +13,3 @@ results
 
 npm-debug.log
 *.DS_Store
-node_modules/*
-gl/webgl.html
