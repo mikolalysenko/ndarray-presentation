@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="node_modules/reveal.js/css/reveal.min.css">
     <link rel="stylesheet" href="node_modules/reveal.js/css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="hljs.css">
 
     <!-- If the query includes 'print-pdf', use the PDF print sheet -->
     <script>
@@ -79,6 +80,31 @@
         <section class="slide-pde">
           <h1>Scientific Computing</h1>
           <canvas id="pde-canvas" width=256 height=256 style="width:512px; height:512px;"></canvas>
+        </section>
+
+        <section class="slide-slicing">
+          <h1>Slicing</h1>
+          <div>
+          <div class="slice-panel-left">
+            <h4>Data:</h4>
+            <canvas id="slice-data" width=512 height=512></canvas>
+          </div>
+          <div class="slice-panel-right">
+            <h4>Slice:</h4>
+            <canvas id="slice-view" width=512 height=512></canvas>
+          </div>
+          <div class="slice-properties">
+            <h4>Props:</h4>
+            <small>
+            <p>Shape: <div id="slice-shape"></div></p>
+            <p>Stride: <div id="slice-stride"></div></p>
+            <p>Offset: <div id="slice-offset"></div></p>
+            </small>
+          </div>
+          </div>
+<pre class="slice-pre">
+<code id="slice-code" class="hljs" contenteditable="true">array.lo(222,215).hi(40,40)</code>
+</pre>
         </section>
 
       </div>

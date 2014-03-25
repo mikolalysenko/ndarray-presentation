@@ -53,4 +53,32 @@
     right: 50px;
 }
 
-#
+.slice-panel-left {
+  float: left;
+}
+
+.slice-panel-right {
+  float: left;
+}
+
+.slice-properties {
+  float: right;
+  margin-left: -20px;
+}
+
+#slice-code {
+  width: 800px;
+  height: 100px;
+}
+
+#slice-data, #slice-view {
+  width: 400px;
+  height: 400px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.reveal pre {
+  box-shadow: none;
+}
+}

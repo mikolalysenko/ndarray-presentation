@@ -26,7 +26,8 @@
     "apply-colormap": "0.0.0",
     "ndarray-gaussian-filter": "0.0.0",
     "pitch-shift": "0.0.0",
-    "cwise": "^0.4.0"
+    "cwise": "^0.4.0",
+    "highlight.js": "^8.0.0"
   },
   "devDependencies": {},
   "scripts": {
