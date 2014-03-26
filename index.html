@@ -36,9 +36,7 @@
           <h1>ndarrays</h1>
           <p>
             <a href="http://0fps.net">Mikola Lysenko</a>
-            <small>
-              <p>University of Wisconsin-Madison</p>
-            </small>
+            <p>University of Wisconsin-Madison</p>
           </p>
           <p style="text-align: center;">
             <p>
@@ -86,7 +84,12 @@
           <section class="slide-more-applications">
             <h1>...and more</h1>
             <ul>
-              <li>TODO: Add links here</li>
+              <li><a href="http://hughsk.io/particle-excess-demo/">http://hughsk.io/particle-excess-demo/</a></li>
+              </li>
+              <li><a href="http://mikolalysenko.github.io/voxel-mipmap-demo/">http://mikolalysenko.github.io/voxel-mipmap-demo/</a></li>
+              <li><a href="https://github.com/mikolalysenko/raymarch">https://github.com/mikolalysenko/raymarch</a></li>
+              <li><a href="http://run.south.im/">http://run.south.im/</a></li>
+              <li><a href="http://hughsk.io/ludum-dare-27/">http://hughsk.io/ludum-dare-27/</a></li>
             </ul>
           </section>
         </section>
@@ -98,23 +101,86 @@
 
           <section>
             <h1>Arrays-of-arrays</h1>
+
+            <p>"Arrays of nested arrays"</p>
+
+<font style="font-size:64px">
 <pre>
-<code>
-var array = [ [1, 0, 0], 
-              [0, 1, 0],
-              [0, 0, 1] ]
+<code class="hljs bz2line">          var array = [ [ 1, 0, 0 ], 
+                        [ 0, 1, 0 ],
+                        [ 0, 0, 1 ] ]
+          var x = array[1][2]
 </code>
 </pre>
+</font>
+          
+            <h3>Performance summary</h3>
+
+            <ul>
+              <li>O(d) indirect memory reads/array accss</li>
+              <li>O(n<sup>d-1</sup>) extra space</li>
+              <li>O(d n<sup>d</sup>) traversal, cache incoherent<sup>*</sup></li>
+              <li>O(n<sup>d</sup>) slicing</li>
+            </ul>
+
+            <br>
+            <p><sup>*</sup><small>Sometimes optimized by v8 in special cases</small></p>
+
           </section>
 
           <section>
-            <h1>Manual indexing</h1>
+            <h1>Implicit arrays</h1>
+
+            <p>"Lexicographic ordering"</p>
+
+<font style="font-size:64px">
+<pre>
+<code class="hljs bz2line">  var array = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ]
+  var x = array[ 1*3 + 2 ]
+</code>
+</pre>
+</font>
+
+            <h3>Performance summary</h3>
+
+            <ul>
+              <li>O(1) indirect memory reads/array accss</li>
+              <li>No extra space!</li>
+              <li>O(n<sup>d</sup> / <font color="red">B</font>) traversal</li>
+              <li>O(n<sup>d</sup> / <font color="red">B</font>) slicing<sup>*</sup></li>
+            </ul>
+            <br><br>
+            
+            <p><span class="fragment">Con: Fixed size, slicing expensive</span></p>
+            
+            <p><sup>*</sup><small>Can be less for special kinds of slices</small></p>
+
           </section>
 
           <section>
             <h1>Strided arrays</h1>
 
-            Affine map from ℤ<sup>n</sup> to ℤ
+            <p>"Affine map from ℤ<sup>n</sup> to ℤ"</p>
+
+<font style="font-size:64px">
+<pre>
+<code class="hljs bz2line">var stride = [3, 1]
+var offset = 0
+var array = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ]
+var x = array[stride[0]*1+stride[1]*2+offset]
+</code>
+</pre>
+</font>
+
+            <h3>Performance summary</h3>
+            
+            <ul>
+              <li>O(1) indirect memory reads/array accss</li>
+              <li>O(d) extra space</li>
+              <li>O(n<sup>d</sup> / <font color="red">B</font>) traversal</li>
+              <li>O(d) slicing</li>
+            </ul>
+
           </section>
         </section>
 
@@ -126,8 +192,9 @@ var array = [ [1, 0, 0],
           <section>
             <h1>Philosophy</h1>
             <ul>
+              <li>Strided arrays</li>
               <li>Minimal core</li>
-              <li>Many small modules</li>
+              <li>Small modules</li>
               <li><a href="http://browserify.org/">Browserify</a> and <a href="https://www.npmjs.org/">npm</a></li>
               <li>Explicit memory management</li>
               <li>WebGL interoperability</li>
@@ -171,6 +238,10 @@ var array = [ [1, 0, 0],
             <font style="font-family:monospace;"><font color="red">data</font>[<font color="aqua">stride</font>[0]*<font color="orange">i0</font>+<font color="aqua">stride</font>[1]*<font color="orange">i1</font>+<font color="yellow">offset</font>]=<font color="green">v</font></font>
             </span>
 
+            <br><br><br>
+
+            <span class="fragment">Other accessors: <font style="font-family:monospace;">.get(), .set(), .index()</font>
+            </span>
           </section>
 
           <section class="slide-slicing-overview">
@@ -227,7 +298,7 @@ var array = [ [1, 0, 0],
               </div>
             </div>
             <pre class="slice-pre">
-            <code id="slice-code" class="hljs" contenteditable="true">array.lo(222,215).hi(40,40)</code>
+            <code id="slice-code" class="hljs" contenteditable="true">array.lo(222,215).hi(40,40) //Edit me!</code>
             </pre>
           </section>
 
@@ -241,22 +312,21 @@ var array = [ [1, 0, 0],
             <br>
             <h3>Example:</h3>
 <pre>
-<code>
-var hash = {}
-var hashStore = {
-  get: function(i) {
-    return +hash[i]
-  },
-  set: function(i,v) {
-    return hash[i]=v
-  },
-  length: Infinity
-}
-var array = ndarray(hashStore, [1000,1000,1000])
+<code class="hljs bz2line">    var hash = {}
+    var hashStore = {
+      get: function(i) {
+        return +hash[i]
+      },
+      set: function(i,v) {
+        return hash[i]=v
+      },
+      length: Infinity
+    }
+    var array = ndarray(hashStore, [1000,1000,1000])
 </code>
 </pre>
         
-          <span class="fragment">Useful for implementing sparse arrays</span>
+          <span class="fragment">Useful for implementing sparse arrays, interfacing to other data structures</span>
           </section>
         </section>
 
@@ -266,47 +336,172 @@ var array = ndarray(hashStore, [1000,1000,1000])
           </section>
 
           <section>
-            <h1>ndarray-ops</h1>
+            <h1><a href="http://npmjs.org/package/ndarray-ops">ndarray-ops</a></h1>
+
+            <h3 style="text-align:left;">Require:</h3>
+            <span class="fragment">
+              <font style="font-family:monospace;">var ops = require(<font color="teal">"ndarray-ops"</font>)</font>
+            </span>
+
+            <br> <br>
+            <h3 style="text-align:left;">Example:</h3>
+            <span class="fragment">
+              <font style="font-family: monospace;">
+              ops.<font color="lime">mul</font><font color="pink">s</font><font color="orange">eq</font>(a, 2.0)
+              </font>
+            </span>
+
+            <br>
+            <ul>
+              <li class="fragment"><font color="lime">Operation name</font></li>
+              <li class="fragment"><font color="pink">Scalar flag</font></li>
+              <li class="fragment"><font color="orange">In place update flag</font></li>
+            </ul>
+
+            <br><br>
+            <span class="fragment">
+            Operators: <font style="font-family:monospace;">assign,random,add,sub,mul,div,mod,...</font>
+            </span>
           </section>
 
           <section>
-            <h1>cwise</h1>
+            <h1><a href="http://npmjs.org/package/cwise">cwise</a></h1>
+            Engine behind <code>ndarray-ops</code>.
+          </section>
+
+
+          <section>
+            <h1><a href="http://www.modules.gl">gl-modules</a></h1>
+
+            <p>Thin, modular WebGL wrappers using ndarrays</p>
+            <br>
+            <ul>
+              <li><a href="https://github.com/chrisdickinson/glslify">glslify</a>: Module system for shaders</li>
+              <li><a href="https://github.com/gl-modules/gl-texture2d">gl-texture2d</a>: Upload ndarrays to textures on the GPU</li>
+              <li><a href="https://github.com/gl-modules/gl-buffer">gl-buffer</a>: Upload ndarrays to array/vertex buffers</li>
+              <li><a href="https://github.com/gl-modules/gl-vao">gl-vao</a>: Manage vertex array objects</li>
+              <li><a href="https://github.com/gl-modules/gl-fbo">gl-fbo</a>: Manage frame buffer objects</li>
+            </ul>
           </section>
 
           <section>
             <h1>utilities</h1>
 
             <ul>
-              <li>pack</li>
-              <li>unpack</li>
-              <li>fill</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-pack">ndarray-pack</a>: Convert array-of-arrays to ndarrays</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-unpack">ndarray-unpack</a>: Convert ndarray to array-of-arrays</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-fill">ndarray-fill</a>: Initialize ndarray with a function</li>
+              <li><a href="https://www.npmjs.org/package/typedarray-pool">typedarray-pool</a>: Memory pooling for typedarrays</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-scratch">ndarray-scratch</a>: Helper for ndarray/typedarrays</li>
+              <li><a href="https://www.npmjs.org/package/save-pixels">save-pixels</a>: Writes a 2D ndarray to a file</li>
+              <li><a href="https://www.npmjs.org/package/get-pixels">get-pixels</a>: Reads an image into an ndarray</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-imshow">ndarray-imshow</a>: Displays an ndarray as an image</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-string">ndarray-string</a>: Converts a string to an ndarray</li>
             </ul>
           </section>
 
           <section>
-            <h1>modules.gl</h1>
-          </section>
-
-          <section>
-            <h1>Tip: Memory pooling</h1>
-          </section>
-
-          <section>
-            <h1>...and more</h1>
+            <h1>Other fun stuff</h1>
 
             <ul>
-              <li>FFT</li>
-              <li>save-pixels/get-pixels</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-fft">ndarray-fft</a>: Fast Fourier transform</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-sort">ndarray-sort</a>: Sorts arrays</li>
+              <li><a href="https://www.npmjs.org/package/binary-search-bounds">binary-search-bounds</a>: Supports ndarrays</li>
+              <li><a href="https://www.npmjs.org/package/distance-transform">distance-transform</a>: Distance transforms</li>
+              <li><a href="https://www.npmjs.org/package/ndgemm">ndgemm</a>: General matrix multiplication</li>
+              <li><a href="https://www.npmjs.org/package/voxelize">voxelize</a>: Voxelizes a mesh to an ndarray</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-bit">ndarray-bit</a>: Bitmap ndarrays</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-hash">ndarray-hash</a>: Hash table backed sparse ndarrays</li>
+              <li><a href="https://www.npmjs.org/package/ndarray-segment">ndarray-segment</a>: Sparse, run-length-encoded ndarrays</li>
+              <li><a href="https://www.npmjs.org/search?q=ndarray">...and much more!</a></li>
             </ul>
           </section>
         </section>
 
-        <section class="section-implementation">
+        <section class="section-demo">
           <section>
-            <h1>Under the hood</h1>
+            <h1>Worked examples</h1>
           </section>
+
+          <section class="slide-bz2">
+            <h1 style="font-size: 100px;"><a href="http://en.wikipedia.org/wiki/Burrows%E2%80%93Wheeler_transform">Burrows-Wheeler Transform</a></h1>
+
+            <span class="fragment">
+            <h4>Step 1: Input string</h4>
+<pre><code class="hljs" data-trim><span class="hljs-keyword">var</span> str=<span class="hljs-string">"<code id="bz2-string" contenteditable=true>BANANA</code>"</span>+<span class="hljs-string">"\0"</span></code></pre>
+            </span>
+
+            <span class="fragment">
+            <h4>Step 2: Generate matrix of rotations</h4>
+<div style="overflow: hidden;">
+<pre class="smallpre"><code class="hljs" id="bz2-forward-rotated" data-trim>00000
+10101
+00110</code></pre>
+<pre class="snippetpre"><code class="hljs bz2line" data-trim>var ndstring = require("ndarray-string")
+var n = str.length
+var x = ndstring(str+str,[n,n],[1,1])</code></pre>
+</div>
+            </span>
+
+            <span class="fragment">
+            <h4>Step 3: Sort rows</h4>
+<div style="overflow: hidden;">
+<pre class="smallpre"><code class="hljs" id="bz2-forward-sorted" data-trim>00000
+10101
+00110</code></pre>
+<pre class="snippetpre"><code class="hljs bz2line" data-trim>var ndsort = require("ndarray-sort")
+var scratch = require("ndarray-scratch")
+var y = ndsort(scratch.clone(x))</code></pre>
+</div>
+            </span>
+
+            <span class="fragment">
+            <h4>Step 4: Return last column</h4>
+<div style="overflow: hidden;">
+<pre class="smallpre"><code class="hljs" id="bz2-forward-result" data-trim>foo</code></pre>
+<pre class="snippetpre"><code class="hljs bz2line" data-trim>var result = ndstring.toString(y.pick(-1, n-1))
+scratch.free(y)</code></pre>
+</div>
+          </span>
+
+          </section>
+
+         <section class="slide-ibz2">
+            <h1>Inverse transform</h1>
+
+            <h4>Step 1: Input string</h4>
+<pre><code class="hljs" data-trim><span class="hljs-keyword">var</span> x = ndstring(<span class="hljs-string">"<span id="bz2-inverse-string"></span>"</span>, [n,n], [1,0])</code></pre>
+            </span>
+
+            <span class="fragment">
+            <h4>Step 2: Sort columns</h4>
+<div style="overflow: hidden;">
+<pre class="bigpre"><code class="hljs" id="bz2-inverse-columns" data-trim></code></pre>
+<pre class="snippetpre"><code class="hljs bz2line" data-trim>var y = scratch.clone(x)
+for(var i=n-1; i>=0; --i) {
+  ndsort(y.lo(0, i))
+}
+</code></pre>
+</div>
+            </span>
+
+            <span class="fragment">
+            <h4>Step 3: Return top row</h4>
+<div style="overflow: hidden;">
+<pre class="smallpre"><code class="hljs" id="bz2-inverse-result" data-trim></code></pre>
+<pre class="snippetpre"><code class="hljs bz2line" data-trim>var result = ndstring.toString(y.pick(0).lo(1))
+return result
+</code></pre>
+</div>
+            </span>
+
+          </section>
+
         </section>
 
+        <section class="section-finish">
+          <h1>References</h1>
+        </section>
       </div>
     </div>
 

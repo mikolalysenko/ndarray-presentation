@@ -81,4 +81,38 @@
 .reveal pre {
   box-shadow: none;
 }
+
+pre.smallpre {
+  width: auto;
+  height: auto;
+  float: right;
+  margin: 0;
+  max-height: 170px;
+  max-width: 400px;
+  overflow: scroll;
+}
+
+
+pre.bigpre {
+  width: auto;
+  height: auto;
+  float: right;
+  margin: 0;
+  max-height: 400px;
+  max-width: 400px;
+  overflow: scroll;
+}
+
+pre.snippetpre {
+  width: 600px;
+  float: left;
+  vertical-align: middle;
+}
+
+.fragment {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
 }
