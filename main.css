@@ -98,7 +98,7 @@ pre.bigpre {
   height: auto;
   float: right;
   margin: 0;
-  max-height: 400px;
+  max-height: 300px;
   max-width: 400px;
   overflow: scroll;
 }
