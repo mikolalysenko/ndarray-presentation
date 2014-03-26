@@ -18,6 +18,7 @@ require("./lib/image-processing.js")
 require("./lib/dsp.js")
 require("./lib/pde.js")
 require("./lib/slice-demo.js")
+require("./lib/bwt.js")
 
 function getTag(list) {
   for(var i=0; i<list.length; ++i) {
