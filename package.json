@@ -30,7 +30,8 @@
     "highlight.js": "8.0.0",
     "ndarray-imshow": "0.0.3",
     "ndarray-string": "0.0.0",
-    "ndarray-sort": "^0.1.0"
+    "ndarray-sort": "^0.1.0",
+    "baboon-image": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {
